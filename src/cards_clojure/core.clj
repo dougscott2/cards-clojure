@@ -24,6 +24,34 @@
   (= 1 (count (set (map :suit hand))))
   )
 
+
+
+(defn four-of-a-kind? [hand]
+  (= 1 (count (set (map :rank hand)))))
+
+(defn three-of-a-kind? [hand]
+  (== (apply max (vals (frequencies (map :rank hand)))) 3))
+
+(defn straight? [hand]
+  (let [ sorted (sort (map :rank hand)) smallest (first sorted)
+        alt (sort (replace {14 1} sorted)) alt-smallest (first alt) ]
+    (or
+      (= sorted (range smallest (+ smallest 4)))
+      (= alt (range alt-smallest (+ alt-smallest 4))))))
+
+(defn straight-flush? [hand]
+  (and
+    (straight? hand)
+    (flush? hand)))
+
+(defn two-pairs? [hand]
+  (or
+    (= 2 (get (frequencies (vals (frequencies (map :rank hand)))) 2))
+    (= 1 (get (frequencies (vals (frequencies (map :rank hand)))) 4))))
+
+
+
+
 (defn -main [& args]
   (time (let [deck (create-deck)
               hands (create-hands deck)
