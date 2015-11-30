@@ -33,29 +33,29 @@
   (== (apply max (vals (frequencies (map :rank hand)))) 3)) ;checks via frequencies to see if the max frequency is 3
 
 (defn straight? [hand]
-  (let [ sorted (sort (map :rank hand)) smallest (first sorted) ;sorts hand by rank and gets first card in hand
-        alt (sort (replace {14 1} sorted)) alt-smallest (first alt) ] ; makes an alt set and pulls its smallest card
+  (let [sorted (sort (map :rank hand)) smallest (first sorted) ;sorts hand by rank and gets first card in hand
+        alt (sort (replace {14 1} sorted)) alt-smallest (first alt)] ; makes an alt set and pulls its smallest card
     (or
       (= sorted (range smallest (+ smallest 4)))
-      (= alt (range alt-smallest (+ alt-smallest 4))))))
+      (= alt (range alt-smallest (+ alt-smallest 4)))))
 
-(defn straight-flush? [hand]
-  (and
-    (straight? hand)
-    (flush? hand)))
+  (defn straight-flush? [hand]
+    (and
+      (straight? hand)
+      (flush? hand)))
 
-(defn two-pairs? [hand]
-  (or
-    (= 2 (get (frequencies (vals (frequencies (map :rank hand)))) 2)) ;frequencies pulls the number of times an item is in a set
-    (= 1 (get (frequencies (vals (frequencies (map :rank hand)))) 4)))) ;so by pull if the frequencies pulled = 2 ever, it is a pair
-; if you get two sets of two then you have two pair
-
-
+  (defn two-pairs? [hand]
+    (or
+      (= 2 (get (frequencies (vals (frequencies (map :rank hand)))) 2)) ;frequencies pulls the number of times an item is in a set
+      (= 1 (get (frequencies (vals (frequencies (map :rank hand)))) 4)))) ;so by pull if the frequencies pulled = 2 ever, it is a pair
+  ; if you get two sets of two then you have two pair
 
 
-(defn -main [& args]
-  (time (let [deck (create-deck)
-              hands (create-hands deck)
-              hands (filter flush? hands)]
-          (println (count hands))))
-  )
+
+
+  (defn -main [& args]
+    (time (let [deck (create-deck)
+                hands (create-hands deck)
+                hands (filter flush? hands)]
+            (println (count hands))))
+    ))
