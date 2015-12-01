@@ -24,8 +24,7 @@
   (= 1 (count (set (map :suit hand))))
   )
 
-
-
+; shoutout to haaja who's github showed me frequencies
 (defn four-of-a-kind? [hand]
   (== (apply max (vals (frequencies (map :rank hand)))) 4)) ;rewritten to match 3 of a kind if we decide to use 5 card hands
 ;gets the frequencies of the hand if the same rank is used 4 times then isFourOfAKind
@@ -34,11 +33,12 @@
   (== (apply max (vals (frequencies (map :rank hand)))) 3)) ;checks via frequencies to see if the max frequency is 3
 
 (defn straight? [hand]
-  (let [ sorted (sort (map :rank hand)) smallest (first sorted) ;; sorts set by rank and pulls first card out
-        alt (sort (replace {14 1} sorted)) alt-smallest (first alt) ] ;makes alternate map and pulls out first card
-    (or
-      (= sorted (range smallest (+ smallest 4)))            ;dark magic
-      (= alt (range alt-smallest (+ alt-smallest 4))))))
+  (let [sorted (sort (map :rank hand))
+        smallest (first sorted)                             ;; sorts set by rank and pulls first card out
+        ;(sort (replace {14 1} sorted))
+        ;alt-smallest (first alt)
+        ]                                                   ;makes alternate map and pulls out first card
+    (= sorted (range smallest (+ smallest 4)))))            ;checks range to equal smallest card to largest being smallest + 4
 
   (defn straight-flush? [hand]
     (and
@@ -48,7 +48,7 @@
   (defn two-pairs? [hand]
     (or
       (= 2 (get (frequencies (vals (frequencies (map :rank hand)))) 2)) ;frequencies pulls the number of times an item is in a set
-      (= 1 (get (frequencies (vals (frequencies (map :rank hand)))) 4)))) ;so by pull if the frequencies pulled = 2 ever, it is a pair
+      #_(= 1 (get (frequencies (vals (frequencies (map :rank hand)))) 4)))) ;so by pull if the frequencies pulled = 2 ever, it is a pair
   ; if you get two sets of two then you have two pair
 
 
