@@ -22,7 +22,7 @@
 
 (defn flush? [hand]
   (= 1 (count (set (map :suit hand))))
-  )
+  )                                                         ;comment to commit
 
 ; shoutout to haaja who's github showed me frequencies
 (defn four-of-a-kind? [hand]
