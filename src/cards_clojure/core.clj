@@ -27,17 +27,18 @@
 
 
 (defn four-of-a-kind? [hand]
-  (= 1 (count (set (map :rank hand)))))
+  (== (apply max (vals (frequencies (map :rank hand)))) 4)) ;rewritten to match 3 of a kind if we decide to use 5 card hands
+;gets the frequencies of the hand if the same rank is used 4 times then isFourOfAKind
 
 (defn three-of-a-kind? [hand]
   (== (apply max (vals (frequencies (map :rank hand)))) 3)) ;checks via frequencies to see if the max frequency is 3
 
 (defn straight? [hand]
-  (let [sorted (sort (map :rank hand)) smallest (first sorted) ;sorts hand by rank and gets first card in hand
-        alt (sort (replace {14 1} sorted)) alt-smallest (first alt)] ; makes an alt set and pulls its smallest card
+  (let [ sorted (sort (map :rank hand)) smallest (first sorted) ;; sorts set by rank and pulls first card out
+        alt (sort (replace {14 1} sorted)) alt-smallest (first alt) ] ;makes alternate map and pulls out first card
     (or
-      (= sorted (range smallest (+ smallest 4)))
-      (= alt (range alt-smallest (+ alt-smallest 4)))))
+      (= sorted (range smallest (+ smallest 4)))            ;dark magic
+      (= alt (range alt-smallest (+ alt-smallest 4))))))
 
   (defn straight-flush? [hand]
     (and
@@ -58,4 +59,4 @@
                 hands (create-hands deck)
                 hands (filter flush? hands)]
             (println (count hands))))
-    ))
+    )
